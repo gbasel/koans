@@ -1,6 +1,5 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-set -euo pipefail
 export ME=$(basename "$0")
 cd "$(dirname $0)"
 
@@ -38,31 +37,22 @@ while [[ $# -gt 0 ]]; do
 done
 
 note "Studying $topic."
+cd $topic
 
 if [[ -n "$koan" ]]; then
     koans=("$koan")
 else
-    koans=($topic/*)
+    koans=(*)
 fi
 
-results=$(./$topic/.run ${koans[@]})
-
-# TODO
-# run the koan for $topic
-
-# approach 1:
-#for koanfile in "${koans[@]}"; do
-#    filename=$(basename "$koanfile")
-#    k="${filename%.*}"
-#    export koan_passed=1
-#    () > /dev/null
-#    wait
-#    if [[ koan_passed -ne 0 ]]; then
-#        pass "    Mastered $k."
-#    else
-#        fail "    Puzzled by $k."
-#    fi
-#done
-
-# approach 2:
-# .run files
+for koanfile in "${koans[@]}"; do
+    filename=$(basename "$koanfile")
+    k="${filename%.*}"
+    (./.run $koanfile) &> /dev/null &
+    wait %1
+    if [[ $? -eq 0 ]]; then
+        pass "    Mastered $k."
+    else
+        fail "    Puzzled by $k."
+    fi
+done
