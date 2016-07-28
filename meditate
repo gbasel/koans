@@ -1,0 +1,68 @@
+#!/usr/bin/bash
+
+set -euo pipefail
+export ME=$(basename "$0")
+cd "$(dirname $0)"
+
+usage() {
+    echo "Usage: $ME topic [(-k|--koan) koan_name]"
+    exit 1
+}
+
+for file in src/*.sh; do
+    source "$file"
+done
+
+if [[ $# -eq 0 ]]; then
+    usage
+fi
+
+topic="$1"
+shift
+
+# parse options
+koan=""
+while [[ $# -gt 0 ]]; do
+    flag="$1"
+    case $flag in
+        -k|--koan)
+            koan="$2"
+            shift
+            ;;
+        *)
+            echo "Unrecognized flag."
+            usage
+            ;;
+    esac
+    shift
+done
+
+note "Studying $topic."
+
+if [[ -n "$koan" ]]; then
+    koans=("$koan")
+else
+    koans=($topic/*)
+fi
+
+results=$(./$topic/.run ${koans[@]})
+
+# TODO
+# run the koan for $topic
+
+# approach 1:
+#for koanfile in "${koans[@]}"; do
+#    filename=$(basename "$koanfile")
+#    k="${filename%.*}"
+#    export koan_passed=1
+#    () > /dev/null
+#    wait
+#    if [[ koan_passed -ne 0 ]]; then
+#        pass "    Mastered $k."
+#    else
+#        fail "    Puzzled by $k."
+#    fi
+#done
+
+# approach 2:
+# .run files
