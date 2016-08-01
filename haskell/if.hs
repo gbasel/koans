@@ -1,25 +1,26 @@
 module If where
 
-ifExample :: Char
-ifExample =
+ifExample0 :: Char
+ifExample0 =
     if True then
         't'
     else
         'f'
 
-koan :: Bool
-koan = ifExample == undefined
+-- TODO
+koan0 :: Bool
+koan0 = ifExample0 == undefined
 
-ifExample :: Int
-ifExample =
+ifExample1 :: Int
+ifExample1 =
     if not True then
         3
     else
         5
 
 -- TODO
-koan :: Bool
-koan = ifExample == undefined
+koan1 :: Bool
+koan1 = ifExample1 == undefined
 
 printEven :: Int -> String
 printEven n =
@@ -29,9 +30,23 @@ printEven n =
         "n is odd"
 
 -- TODO
-koan :: Bool
-koan = (printEven 4) == undefined
+koan2 :: Bool
+koan2 = (printEven 4) == undefined
 
 -- TODO
-koan :: Bool
-koan = (printEven 13) == undefined
+koan3 :: Bool
+koan3 = (printEven 13) == undefined
+
+--------------------------------------------------------------------------------
+
+main :: IO ()
+main = putStrLn result
+  where
+    result = show passed ++ "/" ++ show total
+    passed = length $ filter id koans
+    total  = length koans
+    koans  = [ koan0
+             , koan1
+             , koan2
+             , koan3
+             ]

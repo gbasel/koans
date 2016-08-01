@@ -35,7 +35,7 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-note "${COLOR_BLUE}Studying $topic.${COLOR_RESET}"
+echo "${COLOR_BLUE}Studying $topic.${COLOR_RESET}"
 cd $topic
 
 if [[ -n "$koan" ]]; then
