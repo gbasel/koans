@@ -4,22 +4,21 @@ export ME=$(basename "$0")
 cd "$(dirname $0)"
 
 usage() {
-    echo "Usage: $ME topic [(-k|--koan) koan_name]"
+    echo "usage: $ME topic [(-k|--koan) koan_name]"
     exit 1
 }
-
-for file in src/*.sh; do
-    source "$file"
-done
 
 if [[ $# -eq 0 ]]; then
     usage
 fi
 
-topic="$1"
-shift
+for file in src/*.sh; do
+    source "$file"
+done
 
 # parse options
+topic="$1"
+shift
 koan=""
 while [[ $# -gt 0 ]]; do
     flag="$1"
@@ -36,7 +35,7 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
-note "Studying $topic."
+note "${COLOR_BLUE}Studying $topic.${COLOR_RESET}"
 cd $topic
 
 if [[ -n "$koan" ]]; then
@@ -48,11 +47,19 @@ fi
 for koanfile in "${koans[@]}"; do
     filename=$(basename "$koanfile")
     k="${filename%.*}"
-    (./.run $koanfile) &> /dev/null &
-    wait %1
-    if [[ $? -eq 0 ]]; then
-        pass "    Mastered $k."
+    result="$(./.run $koanfile 2> /dev/null)"
+    if [[ $? -ne 0 ]]; then
+        passed=0
+        result="?/?"
     else
-        fail "    Puzzled by $k."
+        passed=$(echo $result | bc)
     fi
+    if [[ $passed -eq 1 ]]; then
+        out="${COLOR_GREEN}Mastered $k."
+    else
+        out="${COLOR_RED}Puzzled by $k."
+    fi
+    len=${#out}
+    col=$(($(tput cols)-$len))
+    printf '    %s%*s%s\n' "$out" $col "$result" "$COLOR_RESET"
 done
