@@ -1,4 +1,6 @@
-module If where
+{-# LANGUAGE TemplateHaskell #-}
+
+import HaskellKoans
 
 ifExample00 :: Char
 ifExample00 = if True then 't' else 'f'
@@ -78,21 +80,4 @@ koan11 = weird 50 == undefined
 --------------------------------------------------------------------------------
 
 main :: IO ()
-main = putStrLn result
-  where
-    result = show passed ++ "/" ++ show total
-    passed = length $ filter id koans
-    total  = length koans
-    koans  = [ koan00
-             , koan01
-             , koan02
-             , koan03
-             , koan04
-             , koan05
-             , koan06
-             , koan07
-             , koan08
-             , koan09
-             , koan10
-             , koan11
-             ]
+main = runKoans $(koanList 11)

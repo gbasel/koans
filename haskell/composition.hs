@@ -1,5 +1,3 @@
-module If where
-
 ifExample00 :: Char
 ifExample00 = if True then 't' else 'f'
 
@@ -33,15 +31,15 @@ example04 n = if intPredicate n then [n .. n + 4] else [n .. n - 3]
 
 -- TODO
 koan04 :: Bool
-koan04 = intPredicate 4 == undefined
+koan04 = example04 4 == undefined
 
 -- TODO
 koan05 :: Bool
-koan05 = intPredicate 60 == undefined
+koan05 = example04 60 == undefined
 
 -- TODO
 koan06 :: Bool
-koan06 = intPredicate 70 == undefined
+koan06 = example04 70 == undefined
 
 weird :: Int -> Int
 weird n =
