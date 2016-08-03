@@ -1,3 +1,5 @@
+import HaskellKoans
+
 koan00 :: Bool
 koan00 = True
 
@@ -8,41 +10,39 @@ koan02 :: Bool
 koan02 = True && True
 
 koan03 :: Bool
-koan03 = True || undefined
+koan03 = True || True 
 
 koan04 :: Bool
-koan04 = True && undefined
+koan04 = True && True
 
 koan05 :: Bool
-koan05 = False || undefined
+koan05 = False || True
 
 koan06 :: Bool
-koan06 = undefined || undefined
+koan06 = True || True
 
 koan07 :: Bool
-koan07 = undefined && undefined
+koan07 = True && True
 
 koan08 :: Bool
 koan08 = True && (False || True)
 
 koan09 :: Bool
-koan09 = False || (True && undefined)
+koan09 = False || (True && True)
 
 koan10 :: Bool
-koan10 = True && (undefined && undefined)
+koan10 = True && (True && True)
 
 koan11 :: Bool
-koan11 = True && (undefined || False)
+koan11 = True && (True || False)
 
 koan12 :: Bool
 koan12 = (False || True) && (True || False)
 
 koan13 :: Bool
-koan13 = (undefined && True) || (False || undefined)
+koan13 = (True && True) || (False || False)
 
 --------------------------------------------------------------------------------
-
-import HaskellKoans
 
 main :: IO ()
 main = runKoans [ koan00
