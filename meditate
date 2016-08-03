@@ -20,11 +20,16 @@ done
 topic="$1"
 shift
 koan=""
+verbose=0
 while [[ $# -gt 0 ]]; do
     flag="$1"
     case $flag in
         -k|--koan)
             koan="$2"
+            shift
+            ;;
+        -v|--verbose)
+            verbose=1
             shift
             ;;
         *)
@@ -41,14 +46,18 @@ cd $topic
 if [[ -n "$koan" ]]; then
     koans=("$koan")
 else
-    koans=(*)
+    koans=($(cat .koans))
 fi
 
 for koanfile in "${koans[@]}"; do
     filename=$(basename "$koanfile")
     k="${filename%.*}"
-    result="$(./.run $koanfile 2> /dev/null)"
-    if [[ $? -ne 0 ]]; then
+    if [[ verbose -eq 0 ]]; then
+        result="$(./.run $koanfile 2> /dev/null)"
+    else
+        result="$(./.run $koanfile)"
+    fi
+    if [[ $? -ne 0 ]] || [[ -z $result ]]; then
         passed=0
         result="?/?"
     else

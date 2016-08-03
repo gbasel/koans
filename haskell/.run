@@ -1,5 +1,8 @@
 source="$1"
 bin="${source%.*}"
+if [[ ! -e HaskellKoans.hi ]]; then
+    ghc HaskellKoans.hs
+fi
 ghc $source > /dev/null
 ./$bin
 rm $bin $bin.o $bin.hi
